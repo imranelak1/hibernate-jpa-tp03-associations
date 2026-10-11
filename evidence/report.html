@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>TP 3 : Gestion avancée des entités Salle, Réservation, Utilisateur et Équipement avec JPA et Hibernate — Résultats</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #faf8f5; color: #292524; font: 15px/1.55 "Consolas", monospace; }
+main { max-width: 1180px; margin: 0 auto; padding: 32px; }
+header { border-bottom: 1px solid #d6d3d1; padding-bottom: 16px; margin-bottom: 24px; }
+h1 { font-size: 24px; line-height: 1.35; margin: 0 0 8px; }
+h2 { font-size: 18px; margin: 0 0 12px; }
+p { margin: 8px 0; } a { color: #805015; }
+section { background: #ffffff; border: 1px solid #d6d3d1; padding: 24px; margin: 0 0 24px; }
+pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: 15px/1.65 "Consolas", monospace; }
+table { border-collapse: collapse; width: 100%; }
+th,td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e7e5e4; vertical-align: top; }
+th { font-weight: 600; } td span { color: #57534e; font-size: 12px; }
+td:nth-child(2) { color: #365314; white-space: nowrap; }
+.note { color: #57534e; font-size: 13px; }
+ul { padding-left: 20px; } li { margin: 12px 0; } code { display: block; overflow-wrap: anywhere; font-size: 11px; }
+</style></head><body><main>
+<header><h1>TP 3 : Gestion avancée des entités Salle, Réservation, Utilisateur et Équipement avec JPA et Hibernate</h1><p>MLIAEdu · Hibernate &amp; JPA · Lab 146</p><p>10 tests · 0 échecs · 0 erreurs · 0 ignorés</p></header>
+<section id="results"><h2>Résultats de la démonstration</h2><p class="note">Extrait exact de la sortie de l'application; les logs techniques complets sont dans <a href="demo-output.txt">demo-output.txt</a>.</p><pre>TP3 - Graphe persiste par em.persist(utilisateur) : {Utilisateur=1, Salle=1, Reservation=1, Equipement=1, salle_equipement=1}
+Projecteur partage : [Salle{id=1, nom=&#x27;Salle A&#x27;, capacite=20}, Salle{id=2, nom=&#x27;Salle B&#x27;, capacite=30}]
+Reservations Alice : [Reservation{id=1, salle=&#x27;Salle A&#x27;, debut=2026-10-12T09:00, fin=2026-10-12T10:00}]
+Salle A disponible 09:30-10:30 : false
+Salle A disponible 10:00-11:00 : true
+Chevauchement refuse : Salle deja reservee sur cette periode
+Dates invalides refusees : La date de debut doit preceder la date de fin
+Apres modification et nouvelle reservation : [Reservation{id=1, salle=&#x27;Salle A&#x27;, debut=2026-10-12T09:00, fin=2026-10-12T10:00}, Reservation{id=2, salle=&#x27;Salle A&#x27;, debut=2026-10-12T10:00, fin=2026-10-12T11:00}]
+Apres orphanRemoval : {Utilisateur=1, Salle=2, Reservation=1, Equipement=1, salle_equipement=2}
+Apres suppression utilisateur (reservation 2 en cascade) : {Utilisateur=0, Salle=2, Reservation=0, Equipement=1, salle_equipement=2}
+Apres suppression Salle A : {Utilisateur=0, Salle=1, Reservation=0, Equipement=1, salle_equipement=1}
+Equipement conserve pour Salle B : [Salle{id=2, nom=&#x27;Salle B&#x27;, capacite=30}]
+TP3 RESULTAT : associations, cascades, orphelins, dates, disponibilite, JPQL et rollback verifies.</pre></section>
+<section id="tests"><h2>Tests de persistance</h2><p>10 tests · 0 échecs · 0 erreurs · 0 ignorés</p><table><thead><tr><th>Scénario / classe</th><th>Résultat</th><th>Durée mesurée</th></tr></thead><tbody><tr><td>suppressionSalleConserveEquipementPartage<br><span>com.example.ReservationServiceTest</span></td><td>Réussi</td><td>1.127 s</td></tr><tr><td>suppressionUtilisateurPropageSeulementAuxReservations<br><span>com.example.ReservationServiceTest</span></td><td>Réussi</td><td>0.073 s</td></tr><tr><td>cascadePersistEnregistreLeGrapheEtLaJointure<br><span>com.example.ReservationServiceTest</span></td><td>Réussi</td><td>0.057 s</td></tr><tr><td>uniciteEtErreurMetierNeCorrompentPasLaBase<br><span>com.example.ReservationServiceTest</span></td><td>Réussi</td><td>0.063 s</td></tr><tr><td>orphanRemovalSupprimeLaReservationMaisPasLaSalle<br><span>com.example.ReservationServiceTest</span></td><td>Réussi</td><td>0.05 s</td></tr><tr><td>erreurAuMilieuDuGrapheAnnuleToutesLesInsertions<br><span>com.example.ReservationServiceTest</span></td><td>Réussi</td><td>0.046 s</td></tr><tr><td>helpersSynchronisentLesDeuxCotes<br><span>com.example.ReservationServiceTest</span></td><td>Réussi</td><td>0.039 s</td></tr><tr><td>jpqlFiltreParUtilisateurEtEquipement<br><span>com.example.ReservationServiceTest</span></td><td>Réussi</td><td>0.046 s</td></tr><tr><td>disponibiliteDetecteChevauchementEtPermetAdjacence<br><span>com.example.ReservationServiceTest</span></td><td>Réussi</td><td>0.047 s</td></tr><tr><td>datesInvalidesSontRefuseesAvantEtPendantPersistance<br><span>com.example.ReservationServiceTest</span></td><td>Réussi</td><td>0.045 s</td></tr></tbody></table><p class="note">Données lues directement dans les fichiers XML Surefire de cette exécution.</p><pre>[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.630 s -- in com.example.ReservationServiceTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Finished at: 2026-10-11T11:56:52+01:00</pre></section>
+<section><h2>Sources et intégrité</h2><p class="note">Capture navigateur de résultats réellement exécutés. Chaque fichier source est conservé avec son SHA-256; les durées peuvent varier lors d'une nouvelle exécution.</p><ul><li><a href="demo-output.txt">demo-output.txt</a> <code>c85e1858664adb2a26f1e40157c9aa55467b1701d9845fb9921be3ccaaa93973</code></li><li><a href="package-output.txt">package-output.txt</a> <code>d4649792b13219800b96053d6462c7d69b9b8275a280bd7821b0a14c2d668607</code></li><li><a href="test-output.txt">test-output.txt</a> <code>392ba0d2eb3140c1cd86b513ee257e3f23848fc4ca3d06ce5960222c339a89f1</code></li><li><a href="junit/TEST-com.example.ReservationServiceTest.xml">junit/TEST-com.example.ReservationServiceTest.xml</a> <code>00cb5c36c065745fcf79217f8e6eb386ac230fbe7d5600e16c380d539eaf7ab5</code></li></ul></section>
+</main></body></html>
